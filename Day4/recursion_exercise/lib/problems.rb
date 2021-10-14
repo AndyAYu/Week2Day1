@@ -12,7 +12,10 @@
 # pow(3, 4) # => 81
 # pow(4, 3) # => 64
 def pow(base, exponent)
-
+    if exponent == 0
+        return 1
+    end
+    pow(base, exponent - 1) * base
 end
 
 
@@ -35,7 +38,12 @@ end
 # lucas_number(5)   # =>    11
 # lucas_number(9)   # =>    76
 def lucas_number(n)
-
+    if n == 0
+        return 2
+    elsif n == 1
+        return 1
+    end 
+    lucas_number(n-1) + lucas_number(n-2)
 end
 
 
@@ -46,14 +54,21 @@ end
 #
 # Examples:
 #
-# sum_array([])             # => 0
-# sum_array([5])            # => 5
-# sum_array([5, 2])         # => 7
-# sum_array([4, 10, -1, 2]) # => 15
-def sum_array(array)
 
+def sum_array(array)
+    if array.empty? 
+        return 0
+    # elsif array.length == 1
+    #     return array[0]
+    end
+    array.first + sum_array(array[(1..-1)])
+    # sum_array(array.length - 1) + array[(array.length)]
 end
 
+p sum_array([])             # => 0
+p sum_array([5])            # => 5
+p sum_array([5, 2])         # => 7
+p sum_array([4, 10, -1, 2]) # => 15
 
 # Write a method, reverse_string(str), that takes in a string.
 # The method should return the string with it's characters in reverse order.
@@ -67,6 +82,11 @@ end
 # reverse_string("internet")    # => "tenretni"
 # reverse_string("friends")     # => "sdneirf"
 def reverse_string(str)
+    if str.length == 0 
+        return ""
+    end
+
+    str[-1] + reverse_string(str[(0..-2)])
 
 end
 
@@ -100,5 +120,13 @@ end
 #     2-dimensional array: [['some data']]
 #     3-dimensional array: [[['some data']]]
 def flatten(data)
+    if !data.is_a?(Array)
+        return [data] # will return values that are notarrays
+    end                #into an array
+    arr = []
 
+    data.each do |ele| #only Arrays will enter this block
+        arr.concat(flatten(ele))
+    end     
+    arr
 end
